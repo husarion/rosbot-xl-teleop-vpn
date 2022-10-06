@@ -28,14 +28,12 @@ configs:
 services:
 
   rosbot-xl:
-    # <<: *client_config
-    <<: *simple_config
+    <<: *client_config
     image: husarion/rosbot-xl:humble
     command: ros2 launch rosbot_xl_bringup bringup.launch.py mecanum:=${MECANUM:-False}
 
   rplidar:
-    # <<: *server_config
-    <<: *simple_config
+    <<: *server_config
     image: husarion/rplidar:humble
     devices:
       - /dev/ttyUSB0:/dev/ttyUSB0
@@ -44,8 +42,7 @@ services:
         serial_baudrate:=${RPLIDAR_BAUDRATE:-115200}
 
   microros:
-    # <<: *client_config
-    <<: *simple_config
+    <<: *client_config
     image: microros/micro-ros-agent:humble
     volumes:
       - ./micro-ros_entrypoint.sh:/micro-ros_entrypoint.sh

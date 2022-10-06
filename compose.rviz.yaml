@@ -28,8 +28,7 @@ configs:
 services:
 
   rviz:
-    # <<: *client_config
-    <<: *simple_config
+    <<: *client_config
     image: husarion/rviz2:humble
     container_name: rviz
     volumes:

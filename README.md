@@ -87,3 +87,15 @@ docker compose -f compose.rviz.yaml pull
 ```bash
 docker compose -f compose.rviz.yaml up
 ```
+
+#### Controlling the robot using `teleop_twist_keyboard`
+
+Execute in a new terminal:
+
+```
+docker exec -it rviz bash
+```
+
+```
+ros2 run teleop_twist_keyboard teleop_twist_keyboard
+```

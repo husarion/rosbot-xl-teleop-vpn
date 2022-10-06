@@ -56,19 +56,9 @@ Visualization Manager:
           Value: true
         cover_link:
           Value: true
-        front_left_wheel_link:
-          Value: true
-        front_right_wheel_link:
-          Value: true
         imu:
           Value: true
         laser:
-          Value: true
-        odom:
-          Value: true
-        rear_left_wheel_link:
-          Value: true
-        rear_right_wheel_link:
           Value: true
       Marker Scale: 0.4000000059604645
       Name: tf
@@ -76,22 +66,13 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        odom:
-          base_link:
-            body_link:
-              cover_link:
-                laser:
-                  {}
-              front_left_wheel_link:
+        base_link:
+          body_link:
+            cover_link:
+              laser:
                 {}
-              front_right_wheel_link:
-                {}
-              imu:
-                {}
-              rear_left_wheel_link:
-                {}
-              rear_right_wheel_link:
-                {}
+            imu:
+              {}
       Update Interval: 0
       Value: true
     - Alpha: 1
