@@ -1,0 +1,52 @@
+x-vpn-config:
+  client_config: &client_config
+    network_mode: host
+    ipc: host
+    configs: [ dds-config.client.xml ]
+    env_file: dds/client.env
+  server_config: &server_config
+    network_mode: host
+    ipc: host
+    configs: [ dds-config.server.xml ]
+    env_file: dds/server.env
+  simple_config: &simple_config
+    network_mode: host
+    ipc: host
+    configs: [ dds-config.simple.xml ]
+    env_file: dds/simple.env
+
+configs:
+  dds-config.client.xml:
+    file: ./dds/config.client.xml
+  dds-config.server.xml:
+    file: ./dds/config.server.xml
+  dds-config.simple.xml:
+    file: ./dds/config.simple.xml
+
+# ============================================================ #
+
+services:
+
+  rosbot-xl:
+    # <<: *client_config
+    <<: *simple_config
+    image: husarion/rosbot-xl:humble
+    command: ros2 launch rosbot_xl_bringup bringup.launch.py mecanum:=${MECANUM:-False}
+
+  rplidar:
+    # <<: *server_config
+    <<: *simple_config
+    image: husarion/rplidar:humble
+    devices:
+      - /dev/ttyUSB0:/dev/ttyUSB0
+    command: >
+      ros2 launch sllidar_ros2 sllidar_launch.py
+        serial_baudrate:=${RPLIDAR_BAUDRATE:-115200}
+
+  microros:
+    # <<: *client_config
+    <<: *simple_config
+    image: microros/micro-ros-agent:humble
+    volumes:
+      - ./micro-ros_entrypoint.sh:/micro-ros_entrypoint.sh
+    command: udp4 --port 8888
