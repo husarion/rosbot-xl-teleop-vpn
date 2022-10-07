@@ -1,15 +1,17 @@
 x-vpn-config:
-  client_config: &client_config
+  - &client_config
     network_mode: host
-    ipc: host
+    # ipc: host
     configs: [ dds-config.client.xml ]
     env_file: dds/client.env
-  server_config: &server_config
+
+  - &server_config
     network_mode: host
-    ipc: host
+    # ipc: host
     configs: [ dds-config.server.xml ]
     env_file: dds/server.env
-  simple_config: &simple_config
+    
+  - &simple_config
     network_mode: host
     ipc: host
     configs: [ dds-config.simple.xml ]
@@ -36,7 +38,7 @@ services:
     <<: *server_config
     image: husarion/rplidar:humble
     devices:
-      - /dev/ttyUSB0:/dev/ttyUSB0
+      - ${LIDAR_SERIAL:?err}:/dev/ttyUSB0
     command: >
       ros2 launch sllidar_ros2 sllidar_launch.py
         serial_baudrate:=${RPLIDAR_BAUDRATE:-115200}

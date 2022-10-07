@@ -1,6 +1,6 @@
-# rosbot-xl-navigation-vpn
+# rosbot-xl-teleop-vpn
 
-A GitHub template for ROSbot XL: autonomous navigation &amp; mapping
+A GitHub template for ROSbot XL: teleop & rviz.
 
 ## Quick Start
 
@@ -28,20 +28,20 @@ sudo husarnet join $HUSARNET_JOINCODE rosbot2r
 #### Pulling all Docker images
 
 ```bash
-docker compose -f compose.rosbot.mapping.yaml pull
+docker compose -f compose.rosbot.yaml pull
 ```
 
 #### Flashing the firmware
 
-Set dip switch no. 3 on ROSbot XL digital board to **"on" state** (`BOOT0` pin to HIGH) and click the `RESET` button, to enter the programming mode.
+Unscrew the top cover and set a dip switch no. 3 on ROSbot XL digital board to **"on" state** (`BOOT0` pin to HIGH) and click the `RESET` button, to enter the programming mode.
 
 Execute in a termianl on your laptop:
 
 ```bash
 docker run --rm -it \
---device /dev/ttyUSB0:/dev/ttyUSB0 \
+--device /dev/ttyUSBDB \
 husarion/rosbot-xl:humble \
-/stm32flash -w /firmware.bin -b 115200 -v /dev/ttyUSB0
+/stm32flash -w /firmware.bin -b 115200 -v /dev/ttyUSBDB
 ```
 
 Set dip switch no. 3 to **"off" state**  (`BOOT0` pin to LOW) and click the `RESET` button to start a newly flashed firmware.
@@ -49,7 +49,7 @@ Set dip switch no. 3 to **"off" state**  (`BOOT0` pin to LOW) and click the `RES
 #### Running containers
 
 ```bash
-docker compose -f compose.rosbot.mapping.yaml up
+docker compose -f compose.rosbot.yaml up
 ```
 
 ### User's PC
