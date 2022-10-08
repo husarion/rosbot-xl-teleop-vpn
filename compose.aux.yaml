@@ -1,0 +1,37 @@
+x-vpn-config:
+  - &server_config
+    network_mode: host
+    ipc: host
+    configs: [ dds-config.server.xml ]
+    env_file: dds-server.env
+
+configs:
+  dds-config.server.xml:
+    file: ./dds-aux/config.server.xml
+
+# ============================================================ #
+
+services:
+
+  discovery-server:
+    <<: *server_config
+    image: ros:humble-ros-core
+    depends_on:
+      husarnet: { condition: service_healthy }
+    command: fast-discovery-server -x /dds-config.server.xml
+
+  husarnet:
+    image: husarnet/husarnet-nightly:2022.10.06.4
+    volumes:
+      - /var/lib/husarnet
+    sysctls:
+      - net.ipv6.conf.all.disable_ipv6=0
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
+    environment: 
+      - HOSTNAME=aux
+      - JOINCODE=${JOINCODE:?you need to create .env file with a JOINCODE variable}
+      - WAIT_HOSTNAMES=legion-y540,rosbot-xl
+      - HUSARNET_DEBUG=1

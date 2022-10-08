@@ -3,25 +3,25 @@ x-vpn-config:
     network_mode: host
     # ipc: host
     configs: [ dds-config.client.xml ]
-    env_file: dds/client.env
+    env_file: dds-client.env
 
   - &server_config
     network_mode: host
     # ipc: host
     configs: [ dds-config.server.xml ]
-    env_file: dds/server.env
+    env_file: dds-server.env
     
   - &simple_config
     network_mode: host
     ipc: host
     configs: [ dds-config.simple.xml ]
-    env_file: dds/simple.env
+    env_file: dds-simple.env
 
 configs:
   dds-config.client.xml:
-    file: ./dds/config.client.xml
+    file: ./dds-rosbot/config.client.xml
   dds-config.server.xml:
-    file: ./dds/config.server.xml
+    file: ./dds-rosbot/config.server.xml
   dds-config.simple.xml:
     file: ./dds/config.simple.xml
 
@@ -29,13 +29,18 @@ configs:
 
 services:
 
+  discovery-server:
+    <<: *server_config
+    image: ros:humble-ros-core
+    command: fast-discovery-server -x /dds-config.server.xml
+
   rosbot-xl:
     <<: *client_config
     image: husarion/rosbot-xl:humble
     command: ros2 launch rosbot_xl_bringup bringup.launch.py mecanum:=${MECANUM:-False}
 
   rplidar:
-    <<: *server_config
+    <<: *client_config
     image: husarion/rplidar:humble
     devices:
       - ${LIDAR_SERIAL:?err}:/dev/ttyUSB0

@@ -2,30 +2,35 @@ x-vpn-config:
   - &client_config
     network_mode: host
     configs: [ dds-config.client.xml ]
-    env_file: dds/client.env
+    env_file: dds-client.env
 
   - &server_config
     network_mode: host
     configs: [ dds-config.server.xml ]
-    env_file: dds/server.env
-
+    env_file: dds-server.env
+    
   - &simple_config
     network_mode: host
     ipc: host
     configs: [ dds-config.simple.xml ]
-    env_file: dds/simple.env
+    env_file: dds-simple.env
 
 configs:
   dds-config.client.xml:
-    file: ./dds/config.client.xml
+    file: ./dds-laptop/config.client.xml
   dds-config.server.xml:
-    file: ./dds/config.server.xml
+    file: ./dds-laptop/config.server.xml
   dds-config.simple.xml:
     file: ./dds/config.simple.xml
 
 # ============================================================ #
 
 services:
+
+  discovery-server:
+    <<: *server_config
+    image: ros:humble-ros-core
+    command: fast-discovery-server -x /dds-config.server.xml
 
   rviz:
     <<: *client_config
