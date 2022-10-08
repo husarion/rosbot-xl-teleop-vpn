@@ -1,27 +1,26 @@
 x-vpn-config:
   - &client_config
     network_mode: host
-    configs: [ dds-config.client.xml ]
+    ipc: host
+    configs: [ client.xml ]
     env_file: dds/client.env
 
   - &server_config
     network_mode: host
-    configs: [ dds-config.server.xml ]
+    ipc: host
+    configs: [ server.xml ]
     env_file: dds/server.env
-
+    
   - &simple_config
     network_mode: host
     ipc: host
-    configs: [ dds-config.simple.xml ]
+    configs: [ simple.xml ]
     env_file: dds/simple.env
 
 configs:
-  dds-config.client.xml:
-    file: ./dds/config.client.xml
-  dds-config.server.xml:
-    file: ./dds/config.server.xml
-  dds-config.simple.xml:
-    file: ./dds/config.simple.xml
+  client.xml: { file: ./dds/client.xml }
+  server.xml: { file: ./dds/server.xml }
+  simple.xml: { file: ./dds/simple.xml }
 
 # ============================================================ #
 

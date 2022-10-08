@@ -22,7 +22,7 @@ export JOINCODE=fc94:b01d:1803:8dd8:b293:5c7d:7639:932a/XXXXXXXXXXXXXXXXXXXXXX
 And join your ROSbot XL to the Husarnet network under `rosbot-xl` hostname:
 
 ```bash
-sudo husarnet join $HUSARNET_JOINCODE rosbot2r
+sudo husarnet join $HUSARNET_JOINCODE rosbot-xl
 ```
 
 #### Pulling all Docker images
